@@ -9,18 +9,17 @@ pipeline {
 
     stages {
 
-        // ❌ Removed extra Checkout stage (already done by Jenkins)
-
         stage('Unit Test') {
-    steps {
-        sh '''
-        python3 -m venv venv
-        . venv/bin/activate
-        pip install -r app/requirements.txt
-        pytest tests/
-        '''
-    }
-}
+            steps {
+                sh '''
+                python3 -m venv venv
+                . venv/bin/activate
+                export PYTHONPATH=$PWD
+                pip install -r app/requirements.txt
+                pytest tests/
+                '''
+            }
+        }
 
         stage('Build Image') {
             steps {
