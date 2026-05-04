@@ -14,6 +14,6 @@ spec:
     spec:
       containers:
       - name: hello-app
-        image: <your-dockerhub-username>/hello-app:latest
+        image: IMAGE_PLACEHOLDER
         ports:
         - containerPort: 5000

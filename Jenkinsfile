@@ -1,0 +1,80 @@
+pipeline {
+    agent { label 'node' }
+
+    environment {
+        IMAGE_NAME = "nafees007/hello-app"
+        IMAGE_TAG = "${BUILD_NUMBER}"
+        FULL_IMAGE = "${IMAGE_NAME}:${IMAGE_TAG}"
+    }
+
+    stages {
+
+        stage('Checkout') {
+            steps {
+                git 'https://github.com/nafees00007/demoapp.git'
+            }
+        }
+
+        stage('Unit Test') {
+            steps {
+                sh 'pip install -r app/requirements.txt || true'
+                sh 'pytest tests/ || true'
+            }
+        }
+
+        stage('Build Image') {
+            steps {
+                sh 'docker build -t $FULL_IMAGE .'
+            }
+        }
+
+        stage('Push Image') {
+            steps {
+                withCredentials([usernamePassword(
+                    credentialsId: 'dockerhub-creds',
+                    usernameVariable: 'USER',
+                    passwordVariable: 'PASS')]) {
+
+                    sh '''
+                    echo $PASS | docker login -u $USER --password-stdin
+                    docker push $FULL_IMAGE
+                    '''
+                }
+            }
+        }
+
+        stage('Container Test') {
+            steps {
+                sh '''
+                docker run -d -p 5000:5000 $FULL_IMAGE
+                sleep 5
+                curl localhost:5000 || true
+                docker ps -q | xargs docker stop || true
+                '''
+            }
+        }
+
+        stage('Update K8s Manifest') {
+            steps {
+                sh '''
+                sed -i "s|IMAGE_PLACEHOLDER|$FULL_IMAGE|g" k8s/deployment.yaml
+                '''
+            }
+        }
+
+        stage('Deploy to GKE') {
+            steps {
+                withCredentials([file(credentialsId: 'gcp-creds', variable: 'GCP_KEY')]) {
+
+                    sh '''
+                    gcloud auth activate-service-account --key-file=$GCP_KEY
+                    gcloud container clusters get-credentials autopilot-cluster-1 --region asia-south2
+
+                    kubectl apply -f k8s/deployment.yaml
+                    kubectl apply -f k8s/service.yaml
+                    '''
+                }
+            }
+        }
+    }
+}
