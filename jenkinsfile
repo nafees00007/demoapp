@@ -67,7 +67,7 @@ pipeline {
 
                     sh '''
                     gcloud auth activate-service-account --key-file=$GCP_KEY
-                    gcloud container clusters get-credentials autopilot-cluster-1 --region asia-south2
+                    gcloud container clusters get-credentials autopilot-cluster-1 --region us-central1
 
                     kubectl apply -f k8s/deployment.yaml
                     kubectl apply -f k8s/service.yaml
