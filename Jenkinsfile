@@ -11,7 +11,7 @@ pipeline {
 
         stage('Checkout') {
             steps {
-                git 'https://github.com/nafees00007/demoapp.git'
+                git branch: 'main', url:  'https://github.com/nafees00007/demoapp.git'
             }
         }
 
@@ -19,7 +19,7 @@ pipeline {
             steps {
                 sh 'pip install -r app/requirements.txt || true'
                 sh 'pytest tests/ || true'
-            }
+            
         }
 
         stage('Build Image') {
