@@ -33,7 +33,7 @@ stages {
             withCredentials([string(credentialsId: 'sonar-token', variable: 'SONAR_TOKEN')]) {
                 sh '''
                 sonar-scanner \
-                -Dsonar.host.url=http://<VM-IP>:9000 \
+                -Dsonar.host.url=http://34.131.81.12:9000 \
                 -Dsonar.login=$SONAR_TOKEN
                 '''
             }
