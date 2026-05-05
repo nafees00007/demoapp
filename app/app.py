@@ -1,16 +1,29 @@
 from flask import Flask
-import datetime
 
 app = Flask(__name__)
 
 @app.route("/")
 def home():
-    now = datetime.datetime.now()
-    return f"""
-    Time: {now.strftime('%H:%M:%S')}
-    Date: {now.strftime('%Y-%m-%d')}
-
-    kal ki baten bhool ja , laura pakar k bhool ja
+    return """
+    <html>
+    <head>
+        <title>Simple Message</title>
+        <meta http-equiv="refresh" content="2">
+        <style>
+            body {
+                background-color: yellow;
+                color: black;
+                font-family: Arial, sans-serif;
+                text-align: center;
+                margin-top: 20%;
+                font-size: 40px;
+            }
+        </style>
+    </head>
+    <body>
+        Kal ki baten bhool ja, Laura pakar k jhool ja
+    </body>
+    </html>
     """
 
 if __name__ == "__main__":
