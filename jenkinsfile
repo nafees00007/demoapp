@@ -1,5 +1,5 @@
 pipeline {
-    agent { label 'dode' }
+    agent { label 'node' }
 
     environment {
         IMAGE_NAME = "nafees007/hello-app"
