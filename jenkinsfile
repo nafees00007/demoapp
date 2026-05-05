@@ -31,7 +31,7 @@ stages {
         steps {
             withCredentials([string(credentialsId: 'sonar-token', variable: 'SONAR_TOKEN')]) {
                 sh '''
-                sonar-scanner \
+                /opt/sonar-scanner/bin/sonar-scanner \
                 -Dsonar.projectKey=hello-app \
                 -Dsonar.host.url=http://34.131.81.12:9000 \
                 -Dsonar.login=$SONAR_TOKEN
