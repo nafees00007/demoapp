@@ -1,16 +1,39 @@
 from flask import Flask
-import socket
 import datetime
 
 app = Flask(__name__)
 
 @app.route("/")
 def home():
+    now = datetime.datetime.now()
     return f"""
-    🚀 CI/CD SUCCESSFUL 🚀 <br><br>
-    Version: v2 <br>
-    Deployed at: {datetime.datetime.now()} <br>
-    Hostname: {socket.gethostname()} <br>
+    <html>
+    <head>
+        <title>Digital Clock</title>
+        <meta http-equiv="refresh" content="1">
+        <style>
+            body {{
+                background-color: black;
+                color: lime;
+                font-family: monospace;
+                text-align: center;
+                margin-top: 20%;
+            }}
+            .clock {{
+                font-size: 60px;
+            }}
+            .date {{
+                font-size: 30px;
+            }}
+        </style>
+    </head>
+    <body>
+        <div class="clock">{now.strftime('%H:%M:%S')}</div>
+        <div class="date">{now.strftime('%Y-%m-%d')}</div>
+        <br>
+        🚀 CI/CD Digital Clock v3 🚀
+    </body>
+    </html>
     """
 
 if __name__ == "__main__":
