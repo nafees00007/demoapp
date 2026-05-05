@@ -1,7 +1,6 @@
 pipeline {
 agent { label 'node' }
 
-```
 environment {
     IMAGE_NAME = "nafees007/hello-app"
     IMAGE_TAG = "${BUILD_NUMBER}"
