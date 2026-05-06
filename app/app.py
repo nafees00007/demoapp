@@ -21,7 +21,7 @@ def home():
         </style>
     </head>
     <body>
-        Kal ki baten bhool ja, laura pakar k jhool ja
+        Kal ki baten bhool ja, LAUDA PAKAR K JHOOL JA.
     </body>
     </html>
     """
